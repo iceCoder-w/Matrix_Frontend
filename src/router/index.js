@@ -49,6 +49,7 @@ export const constantRouterMap = [
         path: 'file',
         name: '全部文件',
         component: () => import('@/views/matrix/disk/all'),
+        // component: () => import('@/components/GlobalUploader/demo'),
         meta: { title: '全部文件', icon: 'table' }
       },
       {
