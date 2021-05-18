@@ -1,12 +1,14 @@
 <template>
   <div class="dashboard-container">
-    <dicv>欢迎回来！</dicv>
+    <div>欢迎回来！</div>
     <div class="dashboard-text">name:{{ name }}</div>
     <div class="dashboard-text">roles:<span v-for="role in roles" :key="role">{{ role }}</span></div>
 
     <!-- 文件上传部分 -->
-    <uploader :options="options" class="uploader-example">
+    <uploader :options="options" class="uploader-app">
+
       <uploader-unsupport/>
+
       <uploader-drop>
         <i class="el-icon-upload"/>
         <p>将文件拖到此处，或点击上传</p>
@@ -14,7 +16,9 @@
         <uploader-btn :attrs="attrs">图片</uploader-btn>
         <uploader-btn :directory="true">文件夹</uploader-btn>
       </uploader-drop>
+
       <uploader-list/>
+
     </uploader>
   </div>
 </template>
@@ -27,8 +31,7 @@ export default {
   data() {
     return {
       options: {
-        // 可通过 https://github.com/simple-uploader/Uploader/tree/develop/samples/Node.js 示例启动服务
-        target: process.env.BASE_API + '/fileservice/upload/uploadFile',
+        target: process.env.BASE_API + '/fileservice/simupload/uploadFile',
         autoStart: false,
         testChunks: false
       },
@@ -67,17 +70,17 @@ export default {
   }
 }
 
-.uploader-example {
+.uploader-app {
   width: 880px;
   padding: 15px;
   margin: 40px auto 0;
   font-size: 16px;
   box-shadow: 0 0 10px rgba(0, 0, 0, .4);
 }
-.uploader-example .uploader-btn {
+.uploader-app .uploader-btn {
   margin-right: 4px;
 }
-.uploader-example .uploader-list {
+.uploader-app .uploader-list {
   max-height: 440px;
   overflow: auto;
   overflow-x: hidden;
