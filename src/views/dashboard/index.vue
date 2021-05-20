@@ -13,7 +13,8 @@
       class="uploader-app"
       @file-added="onFileAdded"
       @file-progress="onFileProgress"
-      @file-success="onFileSuccess">
+      @file-success="onFileSuccess"
+      @file-error="onFileError">
       <uploader-unsupport/>
 
       <uploader-drop>
@@ -107,6 +108,11 @@ export default {
       this.startBtn = true
       this.stopBtn = false
       for (let i = 0; i < this.$refs.list.fileList.length; i++) {
+        console.log(this.$refs.list.fileList[i])
+        console.log('文件名：' + this.$refs.list.fileList[i].name)
+        console.log('文件大小：' + this.$refs.list.fileList[i].size)
+        console.log('文件类型：' + this.$refs.list.fileList[i].type)
+        console.log('文件修改时间：' + this.$refs.list.fileList[i].lastModifiedDate)
         this.$refs.list.fileList[i].resume()
       }
 
@@ -196,6 +202,11 @@ export default {
       this.startBtn = false
       this.stopBtn = true
       console.log(response)
+      this.$notify({
+        title: '上传成功',
+        message: JSON.parse(response).message,
+        type: 'success'
+      })
     },
 
     onFileError(rootFile, file, response, chunk) {
