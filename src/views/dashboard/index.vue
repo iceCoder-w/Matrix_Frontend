@@ -27,6 +27,8 @@
       </uploader-drop>
 
       <uploader-list ref="list"/>
+
+      <div/>
       <el-progress :percentage="percentage" :format="format"/>
 
     </uploader>
@@ -37,19 +39,45 @@
       <el-button :disabled="startBtn" type="primary" @click="startUpload"><span>全部开始</span></el-button>
       <el-button :disabled="stopBtn" type="primary" @click="stopUpload"><span>全部暂停</span></el-button>
       <el-button @click="cancelUpload">清空上传列表</el-button>
-
     </div>
+
+    <el-table
+      :data="fileList"
+      :key="Math.random()"
+      style="width: 600px;margin: 20px auto;">
+      <el-table-column
+        prop="id"
+        label="文件id"
+        width="100"/>
+      <el-table-column
+        prop="name"
+        label="文件名"
+        width="240"/>
+      <el-table-column
+        prop="size"
+        label="文件大小"
+        width="180"/>
+    </el-table>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import SparkMD5 from 'spark-md5'
+import UploaderBtn from './btn.vue'
+import UploaderList from './list.vue'
 
 export default {
   name: 'Dashboard',
+  components: {
+    UploaderBtn,
+    UploaderList
+  },
   data() {
     return {
+      // 已上传的文件列表
+      fileList: [],
+
       options: {
         target: process.env.BASE_API + '/fileservice/simupload/uploadFile',
         maxChunkRetries: 3, // 失败后最多自动重试上传次数
@@ -207,6 +235,11 @@ export default {
         message: JSON.parse(response).message,
         type: 'success'
       })
+      this.$refs.uploader.uploader.removeFile(file)
+
+      this.fileList[this.fileList.length] = file
+      // console.log(this.fileList)
+      this.file_total = this.$refs.list.fileList.length
     },
 
     onFileError(rootFile, file, response, chunk) {
@@ -273,38 +306,47 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-.dashboard {
-  &-container {
+    .dashboard {
+    &-container {
     margin: 30px;
-  }
-  &-text {
+    }
+    &-text {
     font-size: 30px;
     line-height: 46px;
-  }
-}
+    }
+    }
 
-.uploader-app {
-  width: 600px;
-  padding: 15px;
-  margin: 40px auto 40px;
-  font-size: 16px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, .4);
-}
-.uploader-app .uploader-btn {
-  margin-right: 4px;
-}
-.uploader-app .uploader-list {
-  max-height: 440px;
-  overflow: auto;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
+    .uploader-app {
+    width: 700px;
+    padding: 15px;
+    margin: 40px auto 40px;
+    font-size: 16px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+    }
 
-.uploader-footer {
-  width: 600px;
-  padding: 15px;
-  margin: 0 auto;
-  font-size: 16px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, .6)
-}
+    .uploader-app .uploader-drop{
+
+    }
+    .uploader-app .uploader-btn {
+    margin-right: 4px;
+    }
+    .uploader-app .uploader-list {
+    max-height: 440px;
+    margin: 10px auto;
+    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    }
+
+    //.uploader-app .uploader-list .uploader-file .uploader-file-progress{
+    //  background: #00a2d4;
+    //}
+
+    .uploader-footer {
+    width: 600px;
+    padding: 15px;
+    margin: 0 auto;
+    font-size: 16px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .6)
+    }
 </style>

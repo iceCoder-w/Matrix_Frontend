@@ -6,6 +6,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/en' // lang i18n
 import uploader from 'vue-simple-uploader'
+// import uploader from '@/components/vue-simple-uploader'
 import globalUploader from '@/components/GlobalUploader/globalUploader.vue'
 
 import '@/styles/index.scss' // global css
